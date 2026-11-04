@@ -1,0 +1,4 @@
+- [ROS 2 개발 환경: Docker vs VMware](ros2-dev-environment.md) — GUI 창이 뜨는 위치(DISPLAY/VNC), SSH GUI 오류, 실차 연결 시 브리지 모드가 필요한 이유
+- [ROS 2 CLI 기초 (turtlesim)](ros2-cli-turtlesim.md) — node/topic/service/param/rqt_graph 명령 의미와 실차 디버깅 점검 순서
+- [rclpy 노드 뼈대와 목표점 P 제어](ros2-python-node-p-control.md) — 파라미터·구독·발행·타이머·spin, atan2와 각도 정규화, P 게인 효과
+- [콜백 vs 타이머, 제어 주기 정하기](ros2-callback-vs-timer.md) — 콜백은 저장만 하고 타이머로 제어하는 이유(센서 융합, 고정 dt, 끊김 감지), 변환 노드와의 차이
