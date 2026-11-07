@@ -33,6 +33,7 @@ class TurtleGoal(Node):
         self.declare_parameter("k_ang", 4.0)
 
         self.pose = None
+        self.arrived = False  # "도착!" 로그를 한 번만 찍기 위한 플래그
         # 2) 구독: 메시지가 올 때마다 on_pose 호출됨 + self.create_subscription(타입, 토픽이름, 콜백함수, 큐 크기)
         # 큐는 처리가 지연될 때 최대 10개까지 쌓아둔단뜻. 
         self.create_subscription(Pose, "/turtle1/pose", self.on_pose, 10)
@@ -74,10 +75,22 @@ class TurtleGoal(Node):
 
         # TODO 4) cmd.angular.z = k_ang * 방향오차
         #         cmd.linear.x  = k_lin * dist   (방향이 많이 틀어졌으면 줄이거나 0)
-        # k_lin (gain) : 하이퍼 파라미터 => 코드에 박아 두지 않고 self.get_parameter("k_ang") 같은 ROS 파라미터로 받음
+        # k_lin (gain) : 하이퍼 파라미터 => 코드에 박아 두지 않고 self.get_parameter("k_ang") 같은 ROS 파라미터로 받음. 
+        k_lin = self.get_parameter("k_lin").value
+        k_ang = self.get_parameter("k_ang").value
+
+        cmd.angular.z = k_ang * err
+        # cos(err): 정면이면 1, 90도 이상 틀어지면 0 → 제자리에서 먼저 방향부터 돌림. 속도 상한 2.0
         cmd.linear.x = min(k_lin * dist, 2.0) * max(0.0, math.cos(err))
-        
+
         # TODO 5) dist < 0.1 이면 멈추고 "도착!" 로그 (self.get_logger().info)
+        if dist < 0.1:
+            cmd = Twist()  # 전부 0 = 정지
+            if not self.arrived:  # 20Hz로 로그가 도배되지 않게 처음 한 번만 출력
+                self.get_logger().info(f"도착! ({self.pose.x:.2f}, {self.pose.y:.2f})")
+                self.arrived = True
+        else:
+            self.arrived = False  # param set으로 목표가 바뀌면 다시 출발
 
         self.pub.publish(cmd)
 
