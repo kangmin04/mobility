@@ -9,5 +9,7 @@ services:
     ports:
       - "127.0.0.1:6080:80"
     shm_size: "512m"
+    environment:
+      - DISPLAY=:1   # docker compose exec 셸에서도 GUI(rqt 등)가 noVNC 화면에 뜨게
     volumes:
       - ../ros2_ws:/home/ubuntu/ros2_ws

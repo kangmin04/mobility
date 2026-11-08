@@ -1,0 +1,21 @@
+# ros2 launch mini_av lane_follow.launch.py 가 읽는 파라미터 파일
+# 튜닝한 값은 여기 적고 git 에 커밋 → 대회 "시행착오·개선" 증거가 된다
+mini_sim:
+  ros__parameters:
+    obstacles_enabled: false
+    camera_noise: 8.0
+
+lane_detect:
+  ros__parameters:
+    lane_width: 0.35
+
+obstacle:
+  ros__parameters:
+    half_fov_deg: 20.0
+
+controller:
+  ros__parameters:
+    speed: 0.35
+    kp: 5.0
+    kd: 0.3
+    max_w: 2.5

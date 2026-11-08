@@ -212,7 +212,7 @@ ros2 launch mini_av sim.launch.py
 # T2  키보드로 몰아보기 (i 전진, j/l 회전, k 정지, q/z 속도 조절)
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 # T3  (GUI) 영상 보기. 왼쪽 위 드롭다운에서 /sim/topdown, /camera/image_raw 선택
-rqt_image_view
+ros2 run rqt_image_view rqt_image_view
 # T4
 ros2 topic echo /sim/status
 ros2 topic hz /camera/image_raw            # 15 Hz
@@ -228,7 +228,7 @@ ros2 service call /sim/reset std_srvs/srv/Empty
 ```bash
 ros2 launch mini_av lane_follow.launch.py use_solution:=true
 # 다른 터미널
-rqt_image_view   # /lane/debug : 흰 세로줄 = 찾은 차선 중심, 회색 = 차량 중심
+ros2 run rqt_image_view rqt_image_view   # /lane/debug : 흰 세로줄 = 찾은 차선 중심, 회색 = 차량 중심
 rqt_graph        # 위의 그래프 그림과 비교
 ros2 topic echo /lane_error
 ```
@@ -269,7 +269,7 @@ python3 tools/offline_check.py --speed 0.6     # 빠르게 하면? 게인을 어
 
 # ② ROS로 실제 주행
 ros2 launch mini_av lane_follow.launch.py
-rqt_image_view                                  # /sim/topdown, /lane/debug
+ros2 run rqt_image_view rqt_image_view   # /sim/topdown, /lane/debug
 ros2 topic echo /sim/status
 ros2 param set /controller kp 3.0               # 달리는 중에 게인 바꾸기
 ros2 param set /controller speed 0.5
