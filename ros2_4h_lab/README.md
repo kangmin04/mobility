@@ -1,4 +1,6 @@
-# ROS 2 자율주행 4시간 실습 (Humble · VMware Ubuntu 22.04 · SSH)
+# ROS 2 자율주행 4시간 실습 (Jazzy · VMware Ubuntu 24.04 · SSH)
+
+> 2026-11-10: 팀 배포판을 Humble에서 **Jazzy**로 바꿨다. VM은 Ubuntu 24.04, Docker는 `setup/docker-compose.yml`(`tiryoh/ros2-desktop-vnc:jazzy`)을 쓴다. 예전 Humble 컨테이너에서 빌드한 `ros2_ws/build install log`는 지우고 다시 빌드한다.
 
 > 목표: 4시간 뒤에 **"카메라 → 차선 인식 → 판단(FSM) → PID 조향 → /cmd_vel"** 파이프라인과 **LiDAR 정지**를 직접 짜서 시뮬레이터에서 돌리고, rqt_graph·rosbag으로 증거를 남길 수 있다.
 > 크누모 대회 구조(PiCar-X, 차선 추종 + LiDAR 장애물)에 맞춘 축소판이다. 노드 이름과 토픽 구조를 대회 코드로 그대로 옮겨 쓸 수 있다.
@@ -9,7 +11,7 @@
 
 | 시간 | 실습 | 하는 일 | 끝났는지 확인하는 기준 |
 |---|---|---|---|
-| (사전) | 설치 | `setup/install_humble.sh` 실행 (15~30분, **4시간에 포함 안 함**) | `ros2 run demo_nodes_cpp talker` 가 실행됨 |
+| (사전) | 설치 | `setup/install_jazzy.sh` 실행 (15~30분, **4시간에 포함 안 함**) | `ros2 run demo_nodes_cpp talker` 가 실행됨 |
 | 0:00–0:15 | **Lab 0** 환경 | 파일 옮기기, 빌드, GUI 띄우는 방법 정하기 | `ros2 pkg list \| grep mini_av` 결과가 나옴 |
 | 0:15–0:55 | **Lab 1** ROS 2 개념 + CLI | turtlesim으로 node / topic / message / service / parameter / rqt_graph | 아래 Lab 1 질문 5개에 답할 수 있음 |
 | 0:55–1:40 | **Lab 2** 첫 노드 | `turtle_goal.py`: 파라미터, 구독, 발행, 타이머, P 제어 | 거북이가 `goal_x, goal_y`에 가서 멈춤 |
@@ -26,7 +28,7 @@
 ```
 ros2_4h_lab/
 ├── README.md                  ← 이 문서
-├── setup/install_humble.sh    ← ROS 2 Humble 설치 스크립트
+├── setup/install_jazzy.sh     ← ROS 2 Jazzy 설치 스크립트
 ├── tools/offline_check.py     ← ROS 없이 알고리즘만 채점 (numpy만 필요)
 └── ros2_ws/src/mini_av/       ← ROS 2 패키지 (ament_python)
     ├── mini_av/
@@ -70,7 +72,7 @@ ssh <user>@<VM_IP>
 ### 0-2. 설치 (아직 안 했다면, VM에서)
 
 ```bash
-bash ~/ros2_4h_lab/setup/install_humble.sh
+bash ~/ros2_4h_lab/setup/install_jazzy.sh
 source ~/.bashrc
 ```
 
@@ -83,7 +85,7 @@ source install/setup.bash
 ros2 pkg executables mini_av       # sim, lane_detect, obstacle, controller, turtle_goal ...
 ```
 
-> **source 규칙**: 새 터미널마다 `/opt/ros/humble/setup.bash`(ROS 본체)와 `install/setup.bash`(내 패키지)를 읽어야 한다. 설치 스크립트가 `~/.bashrc`에 둘 다 넣어 두었다. 새 노드를 추가하거나 `setup.py`를 고쳤을 때만 `colcon build`를 다시 한다.
+> **source 규칙**: 새 터미널마다 `/opt/ros/jazzy/setup.bash`(ROS 본체)와 `install/setup.bash`(내 패키지)를 읽어야 한다. 설치 스크립트가 `~/.bashrc`에 둘 다 넣어 두었다. 새 노드를 추가하거나 `setup.py`를 고쳤을 때만 `colcon build`를 다시 한다.
 
 ### 0-4. GUI 창(turtlesim, rqt, rviz2) 띄우는 방법 — SSH라서 필요
 
@@ -354,7 +356,7 @@ ros2 run mini_av lane_detect --ros-args -p use_solution:=true
 3. **OpenCV로 바꾸기**: `cv2.threshold(..., cv2.THRESH_OTSU)`, `cv2.moments`로 다시 구현하고 처리 시간 비교 (`lane_detect` 로그에 ms가 찍힌다)
 4. **장애물 회피**: 정지 대신 차선 안에서 옆으로 비켜 지나가기 (목표 오프셋을 잠깐 바꾸기)
 5. **RViz2**: `rviz2` → Fixed Frame `odom` → Add → LaserScan(`/scan`), Odometry(`/odom`), TF
-6. **진짜 3D 시뮬레이터**: TurtleBot3 + Gazebo + Nav2 (`ros-humble-turtlebot3*`, `ros-humble-navigation2`). 대회 시뮬레이터가 Gazebo 계열이면 이쪽 경험이 도움이 된다
+6. **진짜 3D 시뮬레이터**: TurtleBot3 + Gazebo + Nav2 (`ros-jazzy-turtlebot3*`, `ros-jazzy-navigation2`). 대회 시뮬레이터가 Gazebo 계열이면 이쪽 경험이 도움이 된다
 
 ## 막힐 때
 
@@ -370,5 +372,5 @@ ros2 run mini_av lane_detect --ros-args -p use_solution:=true
 | 새 노드를 추가했는데 `ros2 run`이 못 찾음 | `setup.py`의 `entry_points`에 넣고 `colcon build` 다시 |
 
 ## 참고
-- 공식 튜토리얼: https://docs.ros.org/en/humble/Tutorials.html (Beginner: CLI tools, Client libraries 부분이 Lab 1·2와 같은 범위)
+- 공식 튜토리얼: https://docs.ros.org/en/jazzy/Tutorials.html (Beginner: CLI tools, Client libraries 부분이 Lab 1·2와 같은 범위)
 - 대회 공부 로드맵: `../자율주행_공부_로드맵.md` (Ch 2·3·4·5가 이 실습과 연결됨)

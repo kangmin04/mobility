@@ -50,4 +50,6 @@ services:
 
 **왜 실차에서 Docker가 문제인가**: ROS 2(DDS)는 같은 네트워크에서 **멀티캐스트**로 다른 노드를 자동으로 찾는다. Mac의 Docker Desktop은 컨테이너를 별도 가상 네트워크(VM 안의 NAT) 뒤에 두기 때문에, 같은 와이파이의 PiCar-X(라즈베리파이)와 멀티캐스트 탐색이 잘 안 된다. VMware를 **브리지 모드**로 두면 VM이 공유기에서 IP를 직접 받아 로봇과 같은 LAN에 있는 PC처럼 동작한다.
 
-**역할 정리**: 대회 때 노드가 도는 곳은 로봇(라즈베리파이)이다. Mac 쪽 환경은 코드 작성, 시뮬레이션, 모니터링(rqt/rviz2)을 하는 개발 PC다. 둘 다 Humble이면 `ros2_ws/src/mini_av`를 그대로 옮기면 된다.
+**역할 정리**: 대회 때 노드가 도는 곳은 로봇(라즈베리파이)이다. Mac 쪽 환경은 코드 작성, 시뮬레이션, 모니터링(rqt/rviz2)을 하는 개발 PC다. 둘 다 같은 배포판이면 `ros2_ws/src/mini_av`를 그대로 옮기면 된다.
+
+> **2026-11-10 업데이트**: 팀 배포판을 **Jazzy**로 확정했다. `docker-compose.yml`은 `tiryoh/ros2-desktop-vnc:jazzy`(컨테이너 이름 `ros2-jazzy`)로, 설치 스크립트는 `setup/install_jazzy.sh`로 바꿨다. 위의 humble 설정은 당시 기록이다. 이미지를 바꾼 뒤에는 Humble로 빌드된 `build/ install/ log/`를 지우고 다시 `colcon build` 해야 한다.

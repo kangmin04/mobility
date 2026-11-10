@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Ubuntu 22.04 (VMware) 에 ROS 2 Humble + 실습에 필요한 패키지 설치
-# 사용법:  bash ~/ros2_4h_lab/setup/install_humble.sh
+# Ubuntu 24.04 (VMware 등) 에 ROS 2 Jazzy + 실습에 필요한 패키지 설치
+# 사용법:  bash ~/ros2_4h_lab/setup/install_jazzy.sh
 # 시간: 인터넷 속도에 따라 15~30분. ★ 4시간 실습 전에 미리 돌려둘 것 ★
 set -euo pipefail
 
 . /etc/os-release
-if [ "${VERSION_ID}" != "22.04" ]; then
-  echo "경고: Ubuntu ${VERSION_ID} 입니다. Humble 은 22.04 용입니다 (24.04 면 Jazzy 사용)." >&2
+if [ "${VERSION_ID}" != "24.04" ]; then
+  echo "경고: Ubuntu ${VERSION_ID} 입니다. Jazzy 는 24.04 용입니다 (22.04 면 Humble 사용)." >&2
   exit 1
 fi
 
@@ -24,17 +24,17 @@ http://packages.ros.org/ros2/ubuntu ${UBUNTU_CODENAME} main" \
 
 sudo apt update
 sudo apt install -y \
-  ros-humble-desktop \
-  ros-humble-turtlesim \
-  ros-humble-teleop-twist-keyboard \
-  ros-humble-rqt-image-view \
-  ros-humble-rqt-graph \
-  ros-humble-tf2-ros \
+  ros-jazzy-desktop \
+  ros-jazzy-turtlesim \
+  ros-jazzy-teleop-twist-keyboard \
+  ros-jazzy-rqt-image-view \
+  ros-jazzy-rqt-graph \
+  ros-jazzy-tf2-ros \
   python3-colcon-common-extensions \
   python3-numpy python3-opencv \
   git
 
-LINE='source /opt/ros/humble/setup.bash'
+LINE='source /opt/ros/jazzy/setup.bash'
 grep -qxF "$LINE" ~/.bashrc || echo "$LINE" >> ~/.bashrc
 WS='[ -f ~/ros2_4h_lab/ros2_ws/install/setup.bash ] && source ~/ros2_4h_lab/ros2_ws/install/setup.bash'
 grep -qxF "$WS" ~/.bashrc || echo "$WS" >> ~/.bashrc

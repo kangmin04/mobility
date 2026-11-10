@@ -77,6 +77,6 @@ flowchart TD
 
 ### 자주 막히는 곳
 - 방향키가 안 먹힘: teleop을 실행한 터미널에 포커스가 없다.
-- `ros2: command not found`: 그 터미널에서 `source /opt/ros/humble/setup.bash`를 안 했다.
+- `ros2: command not found`: 그 터미널에서 `source /opt/ros/jazzy/setup.bash`를 안 했다. (2026-11-10부터 팀 배포판은 Jazzy. 예전 Humble 컨테이너에서는 `/opt/ros/humble`)
 - `Package 'mini_av' not found`: `source ~/ros2_ws/install/setup.bash`를 안 했다.
 - 창이 안 보임: [[ros2-dev-environment]] 참고.

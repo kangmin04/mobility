@@ -1,11 +1,11 @@
-# ROS 2 Humble 데스크톱 (브라우저 VNC) — Apple Silicon(arm64) 지원 이미지
+# ROS 2 Jazzy 데스크톱 (브라우저 VNC) — Apple Silicon(arm64) 지원 이미지
 # 실행:  docker compose up -d        →  브라우저에서 http://localhost:6080
 # 셸:    docker compose exec -u ubuntu ros bash
 # 종료:  docker compose down
 services:
   ros:
-    image: tiryoh/ros2-desktop-vnc:humble
-    container_name: ros2-humble
+    image: tiryoh/ros2-desktop-vnc:jazzy
+    container_name: ros2-jazzy
     ports:
       - "127.0.0.1:6080:80"
     shm_size: "512m"
